@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sweet Boy’s Christmas Adventure</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF‑8">
+  <title>Sweet Boy & Pretty Girl Christmas Adventure</title>
+  <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
 
   <!-- GSAP Animation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -20,32 +20,28 @@
 
     /* Parallax winter village background */
     body {
-      background: url("wintervillage.jpg") center/cover no-repeat fixed;
+      background: url("wintervillage.jpg") center/cover no‑repeat fixed;
     }
 
     #scene {
       position: relative;
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
     }
 
-    /* Snowflake styling */
+    /* Snowflake */
     .snowflake {
       position: fixed;
       top: -10vh;
-      color: #fff;
       font-size: 1.2rem;
       pointer-events: none;
       z-index: 9999;
-      user-select: none;
+      opacity: 0.8;
       animation: fall linear infinite;
     }
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
+    @keyframes fall { to { transform: translateY(110vh); } }
 
-    .text-box {
+    .text‑box {
       position: absolute;
       width: 85%;
       left: 7.5%;
@@ -59,12 +55,20 @@
       text-shadow: 1px 1px 4px rgba(255,255,255,0.9);
     }
 
-    #sweetBoy {
+    .label {
+      position: absolute;
+      font-size: 1.3rem;
+      font‑weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+      opacity: 0;
+    }
+
+    /* Stick figures */
+    #sweetBoy, #prettyGirl {
       position: absolute;
       width: 150px;
-      height: 250px;
       top: 60%;
-      left: -20%;
       opacity: 0;
     }
 
@@ -72,7 +76,7 @@
       position: absolute;
       max-width: 280px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(‑50%);
       top: 25%;
       opacity: 0;
       border-radius: 10px;
@@ -83,7 +87,7 @@
       position: absolute;
       max-width: 300px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(‑50%);
       top: 25%;
       opacity: 0;
     }
@@ -106,126 +110,133 @@
       background: #fff9a2;
       border-radius: 50%;
       opacity: 0;
-      pointer-events: none;
     }
+
   </style>
 </head>
 <body>
 
-  <!-- Background Music -->
-  <audio id="bgMusic" src="music.mp3"></audio>
+<audio id="bgMusic" src="music.mp3"></audio>
 
-  <div id="scene">
+<div id="scene">
 
-    <!-- Sweet Boy stick figure -->
-    <div id="sweetBoy">
-      <svg width="150" height="250">
-        <circle cx="75" cy="40" r="30" stroke="#333" stroke-width="5" fill="none"></circle>
-        <line x1="75" y1="70" x2="75" y2="150" stroke="#333" stroke-width="5"></line>
-        <line x1="75" y1="90" x2="30" y2="120" stroke="#333" stroke-width="5"></line>
-        <line x1="75" y1="90" x2="120" y2="120" stroke="#333" stroke-width="5"></line>
-        <line x1="75" y1="150" x2="45" y2="210" stroke="#333" stroke-width="5"></line>
-        <line x1="75" y1="150" x2="105" y2="210" stroke="#333" stroke-width="5"></line>
-      </svg>
-    </div>
-
-    <!-- Story Subtitles -->
-    <div id="txt1" class="text-box">It was Christmas Eve… and Sweet Boy set out on his snowy journey…</div>
-    <div id="txt2" class="text-box">With every step, his heart whispered her name… my pretty girl.</div>
-    <div id="txt3" class="text-box">He remembered their happiest moments, warm even in winter’s chill…</div>
-    <div id="txt4" class="text-box">Through snowy paths and starry nights, he walked on determined…</div>
-    <div id="txt5" class="text-box">Then up ahead, something magical glowed in the village lights…</div>
-
-    <!-- Photos -->
-    <img id="photo1" class="photo" src="Leah1.jpeg" alt="Sweet memories">
-    <img id="photo2" class="photo" src="Leah2.jpeg" alt="Warm love moments">
-
-    <!-- Ending GIF -->
-    <img id="endingGif" src="Leah.gif" alt="Leah GIF">
-
-    <!-- Final Message -->
-    <div id="finalMessage">Merry Christmas my pretty girl ❤️</div>
-
+  <!-- Sweet Boy -->
+  <div id="sweetBoy">
+    <svg width="150" height="250">
+      <circle cx="75" cy="40" r="30" stroke="#333" stroke-width="5" fill="none"></circle>
+      <line x1="75" y1="70" x2="75" y2="150" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="90" x2="30" y2="120" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="90" x2="120" y2="120" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="150" x2="45" y2="210" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="150" x2="105" y2="210" stroke="#333" stroke-width="5"></line>
+    </svg>
   </div>
 
-  <script>
-    const bgMusic = document.getElementById("bgMusic");
+  <!-- Pretty Girl -->
+  <div id="prettyGirl" style="left: 80%;">
+    <svg width="150" height="250">
+      <circle cx="75" cy="40" r="30" stroke="#333" stroke-width="5" fill="none"></circle>
+      <line x1="75" y1="70" x2="75" y2="150" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="90" x2="50" y2="120" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="90" x2="100" y2="120" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="150" x2="50" y2="210" stroke="#333" stroke-width="5"></line>
+      <line x1="75" y1="150" x2="100" y2="210" stroke="#333" stroke-width="5"></line>
+    </svg>
+  </div>
 
-    // play music after user click
-    window.addEventListener("click", () => {
-      bgMusic.volume = 1.0;
-      bgMusic.play();
-    });
+  <!-- Name Labels -->
+  <div id="labelSweet" class="label">Sweet Boy</div>
+  <div id="labelPretty" class="label">Pretty Girl</div>
 
-    // generate falling snow
-    function makeSnowflake() {
-      const snowflake = document.createElement("div");
-      snowflake.className = "snowflake";
-      snowflake.textContent = "❄️";
-      snowflake.style.left = Math.random() * window.innerWidth + "px";
-      snowflake.style.fontSize = (10 + Math.random()*20) + "px";
-      snowflake.style.animationDuration = (5 + Math.random()*5) + "s";
-      snowflake.style.opacity = Math.random();
-      document.body.appendChild(snowflake);
-      setTimeout(() => snowflake.remove(), 10000);
+  <!-- Story Subtitles -->
+  <div id="txt1" class="text‑box">It was Christmas Eve… and Sweet Boy set out on his snowy journey…</div>
+  <div id="txt2" class="text‑box">With every step, his heart whispered her name… my pretty girl.</div>
+  <div id="txt3" class="text‑box">He remembered their happiest moments, warm even in winter’s chill…</div>
+  <div id="txt4" class="text‑box">Through snowy paths and starry nights, he walked on determined…</div>
+  <div id="txt5" class="text‑box">Now, at last… he sees her smiling in the glow of the village lights…</div>
+
+  <!-- Memories -->
+  <img id="photo1" class="photo" src="Leah1.jpeg" alt="Sweet memories">
+  <img id="photo2" class="photo" src="Leah2.jpeg" alt="Warm love moments">
+
+  <!-- Ending -->
+  <img id="endingGif" src="Leah.gif" alt="Leah GIF">
+  <div id="finalMessage">Merry Christmas my pretty girl ❤️</div>
+
+</div>
+
+<script>
+  const bgMusic = document.getElementById("bgMusic");
+  window.addEventListener("click", () => { bgMusic.play(); });
+
+  // falling snow
+  function makeSnowflake() {
+    const snowflake = document.createElement("div");
+    snowflake.className = "snowflake";
+    snowflake.textContent = "❄️";
+    snowflake.style.left = Math.random()*window.innerWidth + "px";
+    snowflake.style.fontSize = (10+Math.random()*20)+"px";
+    snowflake.style.animationDuration = (5+Math.random()*5)+"s";
+    document.body.appendChild(snowflake);
+    setTimeout(()=>snowflake.remove(), 10000);
+  }
+  setInterval(makeSnowflake, 200);
+
+  function sparkle(x,y) {
+    const s = document.createElement("div");
+    s.classList.add("sparkle");
+    s.style.left = x+"px";
+    s.style.top = y+"px";
+    document.body.appendChild(s);
+    gsap.fromTo(s, {opacity:1, scale:1},{opacity:0, scale:2, duration:1.5, onComplete:()=>s.remove()});
+  }
+
+  const tl = gsap.timeline({defaults:{ease:"power2.out"}});
+
+  // animate story
+  tl.to("#sweetBoy",{duration:1.5, opacity:1, x: "30vw"});
+  tl.to("#txt1",{duration:1.2, opacity:1}, "+=0.5");
+  tl.to("#txt1",{duration:1, opacity:0},"+=2");
+
+  tl.to("#txt2",{duration:1.2, opacity:1});
+  tl.to("#txt2",{duration:1, opacity:0},"+=2");
+
+  tl.to("#photo1",{duration:1.5, opacity:1});
+  tl.to("#photo1",{duration:1, opacity:0},"+=3");
+
+  tl.to("#sweetBoy",{duration:2, x:"40vw"});
+
+  tl.to("#txt3",{duration:1.2, opacity:1});
+  tl.to("#txt3",{duration:1, opacity:0},"+=2");
+
+  tl.to("#photo2",{duration:1.5, opacity:1});
+  tl.to("#photo2",{duration:1, opacity:0},"+=3");
+
+  tl.to("#txt4",{duration:1.2, opacity:1});
+  tl.to("#txt4",{duration:1, opacity:0},"+=2");
+
+  // bring in Pretty Girl
+  tl.to("#prettyGirl",{duration:1.5, opacity:1});
+  tl.to("#labelSweet",{duration:1, opacity:1, x:"30vw"}, "-=1");
+  tl.to("#labelPretty",{duration:1, opacity:1, x:"80vw"}, "-=1");
+
+  tl.to("#txt5",{duration:1.2, opacity:1});
+  tl.to("#txt5",{duration:1, opacity:0},"+=2");
+
+  // meet & sparkles
+  tl.to("#sweetBoy",{duration:1.5, x:"45vw"});
+  tl.to("#prettyGirl",{duration:1.5, x:"55vw"},"-=1.5");
+
+  tl.to({}, {duration: 0.1, onComplete:()=> {
+    for(let i=0;i<15;i++){
+      sparkle(window.innerWidth/2 + (Math.random()-0.5)*200, window.innerHeight/2 + (Math.random()-0.5)*200);
     }
-    setInterval(makeSnowflake, 200);
+  }});
 
-    function sparkle(x, y) {
-      const s = document.createElement("div");
-      s.classList.add("sparkle");
-      s.style.left = x + "px";
-      s.style.top = y + "px";
-      document.body.appendChild(s);
-      gsap.fromTo(s, {opacity:1, scale:1}, {opacity:0, scale:2, duration:1.5, onComplete:() => s.remove()});
-    }
-
-    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-
-    // story timeline
-    tl.to("#sweetBoy", {duration:1.5, opacity:1, x:"20vw"});
-
-    tl.to("#txt1",{duration:1.2, opacity:1}, "+=0.5");
-    tl.to("#txt1",{duration:1, opacity:0}, "+=2");
-
-    tl.to("#sweetBoy",{duration:2, x:"35vw"});
-
-    tl.to("#txt2",{duration:1.2, opacity:1});
-    tl.to("#txt2",{duration:1, opacity:0}, "+=2");
-
-    tl.to("#photo1",{duration:1.5, opacity:1});
-    tl.to("#photo1",{duration:1, opacity:0}, "+=3");
-
-    tl.to("#sweetBoy",{duration:2, x:"50vw"});
-
-    tl.to("#txt3",{duration:1.2, opacity:1});
-    tl.to("#txt3",{duration:1, opacity:0}, "+=2");
-
-    tl.to("#photo2",{duration:1.5, opacity:1});
-    tl.to("#photo2",{duration:1, opacity:0}, "+=3");
-
-    tl.to("#txt4",{duration:1.2, opacity:1});
-    tl.to("#txt4",{duration:1, opacity:0}, "+=2");
-
-    tl.to("#sweetBoy",{duration:2, x:"60vw"});
-
-    tl.to("#txt5",{duration:1.2, opacity:1});
-    tl.to("#txt5",{duration:1, opacity:0}, "+=2");
-
-    // reveal and sparkles
-    tl.to("#sweetBoy",{duration:1.5, x:"50vw"});
-    tl.to({}, {duration:0.1, onComplete:() => {
-      for(let i=0;i<15;i++){
-        sparkle(window.innerWidth/2 + (Math.random()-0.5)*200, window.innerHeight/2 + (Math.random()-0.5)*200);
-      }
-    }});
-
-    tl.to("#endingGif",{duration:1.5, opacity:1});
-    tl.to(bgMusic, {duration:3, volume:0}, "-=1.5"); // fade music
-    tl.to("#finalMessage",{duration:2, opacity:1, scale:1.2});
-  </script>
+  // ending
+  tl.to("#endingGif",{duration:1.5, opacity:1});
+  tl.to("#finalMessage",{duration:2, opacity:1, scale:1.3});
+</script>
 
 </body>
 </html>
-
-
