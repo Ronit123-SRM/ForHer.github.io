@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sweet Boy & Pretty Girl Christmas Story</title>
+  <title>Sweet Boy’s Christmas Story</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- GSAP + TextPlugin -->
@@ -19,7 +19,6 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Parallax background */
     body {
       background: url("wintervillage.jpg") center/cover no-repeat fixed;
     }
@@ -28,7 +27,6 @@
       position: relative;
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
     }
 
     .snowflake {
@@ -36,7 +34,6 @@
       top: -10vh;
       font-size: 1.2rem;
       pointer-events: none;
-      user-select: none;
       animation: fall linear infinite;
       opacity: 0.8;
     }
@@ -57,18 +54,18 @@
 
     .label {
       position: absolute;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #fff;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+      text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
       opacity: 0;
+      white-space: nowrap;
       pointer-events: none;
     }
 
     #sweetBoy, #prettyGirl {
       position: absolute;
       width: 150px;
-      top: 60%;
       opacity: 0;
     }
 
@@ -88,7 +85,7 @@
       max-width: 300px;
       left: 50%;
       transform: translateX(-50%);
-      top: 25%;
+      top: 35%;
       opacity: 0;
     }
 
@@ -96,20 +93,24 @@
       position: absolute;
       width: 100%;
       text-align: center;
-      top: 60%;
+      top: 70%;
       font-size: 2.2rem;
-      color: #fff;
+      color: #ff2a68;
       opacity: 0;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
 
-    .sparkle {
+    /* Floating heart style */
+    .heartParticle {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #fff9a2;
-      border-radius: 50%;
-      opacity: 0;
+      color: #ff467e;
+      font-size: 1.2rem;
+      pointer-events: none;
+      animation: floatHeart 2.5s ease-out forwards;
+    }
+    @keyframes floatHeart {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-120px) scale(1.4); }
     }
   </style>
 </head>
@@ -119,8 +120,8 @@
 
 <div id="scene">
 
-  <!-- Sweet Boy (white stick figure) -->
-  <div id="sweetBoy">
+  <!-- Sweet Boy -->
+  <div id="sweetBoy" style="top:60vh; left:-15%;">
     <svg width="150" height="250">
       <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"></circle>
       <line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"></line>
@@ -131,15 +132,14 @@
     </svg>
   </div>
 
-  <!-- Pretty Girl (white stick figure with long hair) -->
-  <div id="prettyGirl" style="left:80%;">
+  <!-- Pretty Girl -->
+  <div id="prettyGirl" style="top:60vh; left:85%;">
     <svg width="150" height="250">
       <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"></circle>
-      <!-- Long hair lines -->
-      <line x1="55" y1="30" x2="30" y2="10" stroke="white" stroke-width="4"></line>
-      <line x1="95" y1="30" x2="120" y2="10" stroke="white" stroke-width="4"></line>
-      <line x1="55" y1="30" x2="45" y2="10" stroke="white" stroke-width="3"></line>
-      <line x1="95" y1="30" x2="105" y2="10" stroke="white" stroke-width="3"></line>
+      <!-- Flowing hair downwards -->
+      <line x1="55" y1="30" x2="45" y2="55" stroke="white" stroke-width="4"></line>
+      <line x1="95" y1="30" x2="105" y2="55" stroke="white" stroke-width="4"></line>
+      <line x1="70" y1="30" x2="70" y2="65" stroke="white" stroke-width="3"></line>
 
       <line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"></line>
       <line x1="75" y1="90" x2="50" y2="120" stroke="white" stroke-width="5"></line>
@@ -149,7 +149,6 @@
     </svg>
   </div>
 
-  <!-- Labels above heads -->
   <div id="labelSweet" class="label">Sweet Boy</div>
   <div id="labelPretty" class="label">Pretty Girl</div>
 
@@ -160,14 +159,12 @@
   <div id="txt4" class="text-box"></div>
   <div id="txt5" class="text-box"></div>
 
-  <!-- Photos -->
   <img id="photo1" class="photo" src="Leah1.jpeg">
   <img id="photo2" class="photo" src="Leah2.jpeg">
 
-  <!-- Heart Locket GIF -->
+  <!-- Heart locket GIF -->
   <img id="endingGif" src="Leah.gif">
 
-  <!-- Final message -->
   <div id="finalMessage">Merry Christmas my pretty girl ❤️</div>
 
 </div>
@@ -179,67 +176,87 @@
   window.addEventListener("click", () => { bgMusic.play(); });
 
   function makeSnowflake() {
-    const snowflake = document.createElement("div");
-    snowflake.className = "snowflake";
-    snowflake.textContent = "❄️";
-    snowflake.style.left = Math.random()*window.innerWidth + "px";
-    snowflake.style.animationDuration = (5+Math.random()*5) + "s";
-    document.body.appendChild(snowflake);
-    setTimeout(()=>snowflake.remove(),10000);
+    const flake = document.createElement("div");
+    flake.className = "snowflake";
+    flake.textContent = "❄️";
+    flake.style.left = Math.random() * window.innerWidth + "px";
+    flake.style.fontSize = (10 + Math.random()*20) + "px";
+    flake.style.animationDuration = (5 + Math.random()*5) + "s";
+    document.body.appendChild(flake);
+    setTimeout(() => flake.remove(), 10000);
   }
-  setInterval(makeSnowflake,200);
+  setInterval(makeSnowflake, 200);
+
+  function createHeart(x, y) {
+    const heart = document.createElement("div");
+    heart.className = "heartParticle";
+    heart.innerHTML = "❤️";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2500);
+  }
 
   function sparkle(x,y) {
     const s = document.createElement("div");
-    s.classList.add("sparkle"); 
+    s.classList.add("sparkle");
     s.style.left = x+"px";
     s.style.top = y+"px";
     document.body.appendChild(s);
     gsap.fromTo(s,{opacity:1,scale:1},{opacity:0,scale:2,duration:1.5,onComplete:()=>s.remove()});
   }
 
-  const tl = gsap.timeline({ defaults:{ ease:"power2.out" } });
+  const tl = gsap.timeline({ defaults:{ease:"power2.out"} });
 
-  // animation timeline with typewriter text
-  tl.to("#sweetBoy",{duration:1.5, opacity:1, x:"30vw"});
-  tl.to("#labelSweet",{duration:1, opacity:1, x:"30vw"},"-=1.5");
-  tl.to("#txt1",{duration:3, text:{value:"It was Christmas Eve… and Sweet Boy set out on his snowy journey…"}}, "+=0.5");
-  tl.to("#txt1",{duration:1, opacity:0}, "+=2");
+  // Animate Sweet Boy in
+  tl.to("#sweetBoy",{duration:1.5,opacity:1,x:"30vw"});
+  tl.set("#labelSweet",{x:"calc(30vw + 15px)",y:"calc(60vh - 50px)",opacity:1});
 
-  tl.to("#txt2",{duration:3, text:{value:"With every step, his heart whispered her name… my pretty girl."}});
-  tl.to("#txt2",{duration:1, opacity:0}, "+=2");
+  // Subtitles sequence
+  tl.to("#txt1",{duration:3,text:{value:"It was Christmas Eve… and Sweet Boy set out on his snowy journey…"}});
+  tl.to("#txt1",{duration:1,opacity:0},"+=2.5");
 
-  tl.to("#photo1",{duration:1.5, opacity:1});
-  tl.to("#photo1",{duration:1, opacity:0}, "+=3");
+  tl.to("#txt2",{duration:3,text:{value:"With every moment he had his head wrapped around a certain girl."}});
+  tl.to("#txt2",{duration:1,opacity:0},"+=2.5");
 
-  tl.to("#txt3",{duration:3, text:{value:"He remembered their happiest moments, warm even in winter’s chill…"}});
-  tl.to("#txt3",{duration:1, opacity:0}, "+=2");
+  tl.to("#photo1",{duration:1.5,opacity:1});
+  tl.to("#photo1",{duration:1,opacity:0},"+=3");
 
-  tl.to("#photo2",{duration:1.5, opacity:1});
-  tl.to("#photo2",{duration:1, opacity:0}, "+=3");
+  tl.to("#txt3",{duration:3,text:{value:"He remembered their times together, warm even in winter’s chill…"}});
+  tl.to("#txt3",{duration:1,opacity:0},"+=2.5");
 
-  tl.to("#txt4",{duration:3, text:{value:"Through snowy paths and starry nights, he walked on determined…"}});
-  tl.to("#txt4",{duration:1, opacity:0}, "+=2");
+  tl.to("#photo2",{duration:1.5,opacity:1});
+  tl.to("#photo2",{duration:1,opacity:0},"+=3");
 
-  // introduce Pretty Girl
-  tl.to("#prettyGirl",{duration:1.5, opacity:1});
-  tl.to("#labelPretty",{duration:1, opacity:1, x:"55vw"},"-=1");
-  tl.to("#txt5",{duration:3, text:{value:"Now, at last… he sees Pretty Girl smiling in the glow of the village lights…"}});
-  tl.to("#txt5",{duration:1, opacity:0}, "+=2");
+  tl.to("#txt4",{duration:3,text:{value:"Through snowy paths and starry nights, he walked on determined…"}});
+  tl.to("#txt4",{duration:1,opacity:0},"+=2.5");
 
-  // meet and sparkles
-  tl.to("#sweetBoy",{duration:1.5, x:"45vw"});
-  tl.to("#prettyGirl",{duration:1.5, x:"55vw"},"-=1.5");
-  tl.to({}, {duration:0.1, onComplete: ()=>{ 
-    for(let i=0; i<15; i++) sparkle(window.innerWidth/2+(Math.random()-0.5)*200, window.innerHeight/2+(Math.random()-0.5)*200);
-  }});
+  // Bring in Pretty Girl
+  tl.to("#prettyGirl",{duration:1.5,opacity:1});
+  tl.set("#labelPretty",{x:"calc(60vw + 15px)",y:"calc(60vh - 50px)",opacity:1},"-=1");
 
-  // final GIF and message
-  tl.to("#endingGif",{duration:1.5, opacity:1});
-  tl.to(bgMusic,{duration:3, volume:0},"-=1.5");
-  tl.to("#finalMessage",{duration:2, opacity:1, scale:1.3});
+  tl.to("#txt5",{duration:3,text:{value:"Now, at last… he sees her smiling in the glow of the village lights…"}});
+  tl.to("#txt5",{duration:1,opacity:0},"+=2.5");
+
+  // Characters meet center
+  tl.to("#sweetBoy",{duration:1.5,x:"40vw"});
+  tl.to("#prettyGirl",{duration:1.5,x:"60vw"},"-=1.5");
+  tl.set("#labelSweet",{x:"calc(40vw + 15px)",y:"calc(60vh - 50px)"});
+  tl.set("#labelPretty",{x:"calc(60vw + 15px)",y:"calc(60vh - 50px)"});
+
+  // Floating hearts & sparkles
+  tl.call(()=> {
+    for(let i=0;i<25;i++) createHeart(window.innerWidth/2 + (Math.random()-0.5)*120, window.innerHeight/2);
+    for(let i=0;i<15;i++) sparkle(window.innerWidth/2+(Math.random()-0.5)*200, window.innerHeight/2+(Math.random()-0.5)*200);
+  });
+
+  // Ending GIF and final message
+  tl.to("#endingGif",{duration:1.5,opacity:1});
+  tl.to(bgMusic,{duration:3,volume:0},"-=1.5");
+  tl.to("#finalMessage",{duration:2,opacity:1,scale:1.3});
 
 </script>
 
 </body>
 </html>
+
