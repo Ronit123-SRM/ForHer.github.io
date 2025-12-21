@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sweet Boy’s Christmas Story</title>
+  <title>Sweet Boy & Pretty Girl Christmas Story</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- GSAP + TextPlugin -->
+  <!-- GSAP (no TextPlugin — using simple fade text) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 
   <style>
     html, body {
@@ -29,6 +28,7 @@
       height: 100vh;
     }
 
+    /* Snow */
     .snowflake {
       position: fixed;
       top: -10vh;
@@ -39,11 +39,12 @@
     }
     @keyframes fall { to { transform: translateY(110vh); } }
 
+    /* Subtitle text boxes */
     .text-box {
       position: absolute;
-      width: 85%;
-      left: 7.5%;
-      padding: 16px;
+      width: 80%;
+      left: 10%;
+      padding: 15px;
       background: rgba(255,255,255,0.85);
       border-radius: 10px;
       font-size: 1.4rem;
@@ -56,11 +57,11 @@
       position: absolute;
       font-size: 1.4rem;
       font-weight: bold;
-      color: #fff;
+      color: white;
       text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
       opacity: 0;
-      white-space: nowrap;
       pointer-events: none;
+      white-space: nowrap;
     }
 
     #sweetBoy, #prettyGirl {
@@ -82,10 +83,10 @@
 
     #endingGif {
       position: absolute;
-      max-width: 300px;
+      max-width: 250px;
       left: 50%;
       transform: translateX(-50%);
-      top: 35%;
+      top: 40%;
       opacity: 0;
     }
 
@@ -93,27 +94,36 @@
       position: absolute;
       width: 100%;
       text-align: center;
-      top: 70%;
+      top: 75%;
       font-size: 2.2rem;
       color: #ff2a68;
       opacity: 0;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
 
-    /* Floating heart style */
     .heartParticle {
       position: absolute;
       color: #ff467e;
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       pointer-events: none;
       animation: floatHeart 2.5s ease-out forwards;
     }
     @keyframes floatHeart {
       0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-120px) scale(1.4); }
+      100% { opacity: 0; transform: translateY(-130px) scale(1.5); }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff9a2;
+      border-radius: 50%;
+      opacity: 0;
     }
   </style>
 </head>
+
 <body>
 
 <audio id="bgMusic" src="music.mp3"></audio>
@@ -121,7 +131,7 @@
 <div id="scene">
 
   <!-- Sweet Boy -->
-  <div id="sweetBoy" style="top:60vh; left:-15%;">
+  <div id="sweetBoy" style="left:-20%; top:65%;">
     <svg width="150" height="250">
       <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"></circle>
       <line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"></line>
@@ -133,14 +143,13 @@
   </div>
 
   <!-- Pretty Girl -->
-  <div id="prettyGirl" style="top:60vh; left:85%;">
+  <div id="prettyGirl" style="left:85%; top:65%;">
     <svg width="150" height="250">
       <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"></circle>
-      <!-- Flowing hair downwards -->
-      <line x1="55" y1="30" x2="45" y2="55" stroke="white" stroke-width="4"></line>
-      <line x1="95" y1="30" x2="105" y2="55" stroke="white" stroke-width="4"></line>
+      <!-- flowing down hair -->
+      <line x1="55" y1="30" x2="55" y2="60" stroke="white" stroke-width="4"></line>
+      <line x1="95" y1="30" x2="95" y2="60" stroke="white" stroke-width="4"></line>
       <line x1="70" y1="30" x2="70" y2="65" stroke="white" stroke-width="3"></line>
-
       <line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"></line>
       <line x1="75" y1="90" x2="50" y2="120" stroke="white" stroke-width="5"></line>
       <line x1="75" y1="90" x2="100" y2="120" stroke="white" stroke-width="5"></line>
@@ -149,20 +158,20 @@
     </svg>
   </div>
 
+  <!-- Labels directly above heads -->
   <div id="labelSweet" class="label">Sweet Boy</div>
   <div id="labelPretty" class="label">Pretty Girl</div>
 
   <!-- Subtitles -->
-  <div id="txt1" class="text-box"></div>
-  <div id="txt2" class="text-box"></div>
-  <div id="txt3" class="text-box"></div>
-  <div id="txt4" class="text-box"></div>
-  <div id="txt5" class="text-box"></div>
+  <div id="txt1" class="text-box">It was Christmas Eve… and Sweet Boy set out on his snowy journey…</div>
+  <div id="txt2" class="text-box">With every moment he had his head wrapped around a certain girl.</div>
+  <div id="txt3" class="text-box">He remembered their times together, warm even in winter’s chill…</div>
+  <div id="txt4" class="text-box">Through snowy paths and starry nights, he walked on determined…</div>
+  <div id="txt5" class="text-box">Now, at last… he sees her smiling in the glow of the village lights…</div>
 
   <img id="photo1" class="photo" src="Leah1.jpeg">
   <img id="photo2" class="photo" src="Leah2.jpeg">
 
-  <!-- Heart locket GIF -->
   <img id="endingGif" src="Leah.gif">
 
   <div id="finalMessage">Merry Christmas my pretty girl ❤️</div>
@@ -170,8 +179,6 @@
 </div>
 
 <script>
-  gsap.registerPlugin(TextPlugin);
-
   const bgMusic = document.getElementById("bgMusic");
   window.addEventListener("click", () => { bgMusic.play(); });
 
@@ -180,21 +187,20 @@
     flake.className = "snowflake";
     flake.textContent = "❄️";
     flake.style.left = Math.random() * window.innerWidth + "px";
-    flake.style.fontSize = (10 + Math.random()*20) + "px";
     flake.style.animationDuration = (5 + Math.random()*5) + "s";
     document.body.appendChild(flake);
     setTimeout(() => flake.remove(), 10000);
   }
   setInterval(makeSnowflake, 200);
 
-  function createHeart(x, y) {
-    const heart = document.createElement("div");
-    heart.className = "heartParticle";
-    heart.innerHTML = "❤️";
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 2500);
+  function createHeart(x,y) {
+    const h = document.createElement("div");
+    h.className = "heartParticle";
+    h.textContent = "❤️";
+    h.style.left = x+"px";
+    h.style.top = y+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), 2500);
   }
 
   function sparkle(x,y) {
@@ -203,60 +209,56 @@
     s.style.left = x+"px";
     s.style.top = y+"px";
     document.body.appendChild(s);
-    gsap.fromTo(s,{opacity:1,scale:1},{opacity:0,scale:2,duration:1.5,onComplete:()=>s.remove()});
+    gsap.fromTo(s,{opacity:1,scale:1},{opacity:0,scale:2,duration:1.3,onComplete:()=>s.remove()});
   }
 
-  const tl = gsap.timeline({ defaults:{ease:"power2.out"} });
+  const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-  // Animate Sweet Boy in
-  tl.to("#sweetBoy",{duration:1.5,opacity:1,x:"30vw"});
-  tl.set("#labelSweet",{x:"calc(30vw + 15px)",y:"calc(60vh - 50px)",opacity:1});
+  tl.to("#sweetBoy",{duration:1.5, opacity:1, x:"30vw"})
+    .set("#labelSweet",{x:"calc(30vw)", y:"calc(65vh - 45px)", opacity:1});
 
-  // Subtitles sequence
-  tl.to("#txt1",{duration:3,text:{value:"It was Christmas Eve… and Sweet Boy set out on his snowy journey…"}});
-  tl.to("#txt1",{duration:1,opacity:0},"+=2.5");
+  tl.to("#txt1",{duration:3, opacity:1});
+  tl.to("#txt1",{duration:1, opacity:0},"+=2.2");
 
-  tl.to("#txt2",{duration:3,text:{value:"With every moment he had his head wrapped around a certain girl."}});
-  tl.to("#txt2",{duration:1,opacity:0},"+=2.5");
+  tl.to("#txt2",{duration:3, opacity:1});
+  tl.to("#txt2",{duration:1, opacity:0},"+=2.2");
 
-  tl.to("#photo1",{duration:1.5,opacity:1});
-  tl.to("#photo1",{duration:1,opacity:0},"+=3");
+  tl.to("#photo1",{duration:1.5, opacity:1});
+  tl.to("#photo1",{duration:1, opacity:0},"+=3");
 
-  tl.to("#txt3",{duration:3,text:{value:"He remembered their times together, warm even in winter’s chill…"}});
-  tl.to("#txt3",{duration:1,opacity:0},"+=2.5");
+  tl.to("#txt3",{duration:3, opacity:1});
+  tl.to("#txt3",{duration:1, opacity:0},"+=2.2");
 
-  tl.to("#photo2",{duration:1.5,opacity:1});
-  tl.to("#photo2",{duration:1,opacity:0},"+=3");
+  tl.to("#photo2",{duration:1.5, opacity:1});
+  tl.to("#photo2",{duration:1, opacity:0},"+=3");
 
-  tl.to("#txt4",{duration:3,text:{value:"Through snowy paths and starry nights, he walked on determined…"}});
-  tl.to("#txt4",{duration:1,opacity:0},"+=2.5");
+  tl.to("#txt4",{duration:3, opacity:1});
+  tl.to("#txt4",{duration:1, opacity:0},"+=2.2");
 
-  // Bring in Pretty Girl
-  tl.to("#prettyGirl",{duration:1.5,opacity:1});
-  tl.set("#labelPretty",{x:"calc(60vw + 15px)",y:"calc(60vh - 50px)",opacity:1},"-=1");
+  tl.to("#prettyGirl",{duration:1.5, opacity:1});
+  tl.set("#labelPretty",{x:"calc(60vw)", y:"calc(65vh - 45px)", opacity:1},"-=1.3");
 
-  tl.to("#txt5",{duration:3,text:{value:"Now, at last… he sees her smiling in the glow of the village lights…"}});
-  tl.to("#txt5",{duration:1,opacity:0},"+=2.5");
+  tl.to("#txt5",{duration:3, opacity:1});
+  tl.to("#txt5",{duration:1, opacity:0},"+=2.2");
 
-  // Characters meet center
-  tl.to("#sweetBoy",{duration:1.5,x:"40vw"});
-  tl.to("#prettyGirl",{duration:1.5,x:"60vw"},"-=1.5");
-  tl.set("#labelSweet",{x:"calc(40vw + 15px)",y:"calc(60vh - 50px)"});
-  tl.set("#labelPretty",{x:"calc(60vw + 15px)",y:"calc(60vh - 50px)"});
+  // move both characters together
+  tl.to("#sweetBoy",{duration:1.5, x:"40vw"});
+  tl.to("#prettyGirl",{duration:1.5, x:"60vw"},"-=1.5");
+  tl.set("#labelSweet",{x:"calc(40vw)", y:"calc(65vh - 45px)"});
+  tl.set("#labelPretty",{x:"calc(60vw)", y:"calc(65vh - 45px)"});
 
-  // Floating hearts & sparkles
+  // hearts and sparkles
   tl.call(()=> {
-    for(let i=0;i<25;i++) createHeart(window.innerWidth/2 + (Math.random()-0.5)*120, window.innerHeight/2);
-    for(let i=0;i<15;i++) sparkle(window.innerWidth/2+(Math.random()-0.5)*200, window.innerHeight/2+(Math.random()-0.5)*200);
+    for(let i=0;i<30;i++) createHeart(window.innerWidth/2 + (Math.random()-0.5)*80, window.innerHeight/2);
+    for(let i=0;i<10;i++) sparkle(window.innerWidth/2+(Math.random()-0.5)*200, window.innerHeight/2+(Math.random()-0.5)*200);
   });
 
-  // Ending GIF and final message
-  tl.to("#endingGif",{duration:1.5,opacity:1});
-  tl.to(bgMusic,{duration:3,volume:0},"-=1.5");
-  tl.to("#finalMessage",{duration:2,opacity:1,scale:1.3});
+  // GIF & final message
+  tl.to("#endingGif",{duration:1.5, opacity:1});
+  tl.to(bgMusic,{duration:3, volume:0},"-=1.5");
+  tl.to("#finalMessage",{duration:2, opacity:1, scale:1.3});
 
 </script>
 
 </body>
 </html>
-
