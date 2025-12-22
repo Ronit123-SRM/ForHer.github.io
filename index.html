@@ -75,6 +75,31 @@ body{
   text-shadow:2px 2px 8px rgba(0,0,0,.8);
 }
 
+/* ===== NEXT SCREEN ===== */
+#nextScreen{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:white;
+  cursor:pointer;
+}
+#nextArrow{
+  font-size:4rem;
+  animation:arrowBounce 1.5s infinite;
+}
+#nextText{
+  margin-top:10px;
+  font-size:1.4rem;
+  opacity:.8;
+}
+@keyframes arrowBounce{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(12px)}
+}
+
 /* ===== LOVE TREE ===== */
 #loveTreePage{
   position:fixed;inset:0;
@@ -86,10 +111,7 @@ body{
   color:white;
 }
 
-.tree{
-  position:relative;width:300px;height:420px;
-  filter:drop-shadow(0 0 20px rgba(255,255,255,.15));
-}
+.tree{position:relative;width:300px;height:420px}
 
 .tree-layer{
   position:absolute;left:50%;
@@ -114,16 +136,8 @@ body{
   cursor:pointer;font-size:1.3rem;
 }
 .ornament.opened{box-shadow:0 0 25px white}
-
-.ornament.locked{
-  opacity:.4;
-  cursor:not-allowed;
-}
-.ornament.locked::after{
-  content:"⏳";
-  position:absolute;
-  font-size:1rem;
-}
+.ornament.locked{opacity:.4;cursor:not-allowed}
+.ornament.locked::after{content:"⏳";position:absolute}
 
 /* positions */
 .o1{top:80px;left:130px;background:crimson}
@@ -150,13 +164,12 @@ body{
   text-align:center;
   font-size:1.2rem;
   color:white;
-  transform:scale(.85);
 }
 
-/* ===== FINAL SCENE ===== */
+/* ===== FINAL ===== */
 #finalSurprise{
   position:fixed;inset:0;
-  background:radial-gradient(circle at center,#111,#000);
+  background:rgba(0,0,0,.92);
   display:none;
   align-items:center;
   justify-content:center;
@@ -164,32 +177,16 @@ body{
   color:white;
   flex-direction:column;
 }
-
 #finalCard{
   background:rgba(20,20,20,.85);
   padding:40px;
   border-radius:20px;
-  box-shadow:0 0 40px rgba(255,95,162,.4);
-  animation:float 4s ease-in-out infinite;
 }
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
-}
-
-#finalSurprise h2{
-  color:#ff5fa2;
-  font-size:3rem;
-  margin-bottom:15px;
-}
-
 #typedText{
+  white-space:pre-line;
   font-size:1.3rem;
   line-height:1.7;
-  white-space:pre-line;
 }
-
 .heart{
   position:fixed;
   pointer-events:none;
@@ -200,7 +197,7 @@ body{
 
 <body>
 
-<!-- CLICK TO START -->
+<!-- START -->
 <div id="startOverlay">
   <div id="startText">❄️ Click to start your story ❄️</div>
 </div>
@@ -211,6 +208,7 @@ body{
 
 <!-- STORY -->
 <div id="scene">
+
   <div id="sweetBoy" style="top:65%;left:-20%">
     <svg width="150" height="250">
       <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"/>
@@ -241,8 +239,14 @@ body{
 
   <img id="photo1" class="photo" src="Leah1.jpeg">
   <img id="photo2" class="photo" src="Leah2.jpeg">
-  <img id="endingGif" src="Leah.gif">
+  <img id="endingGif" class="photo" src="Leah.gif">
   <div id="finalMessage">Merry Christmas my pretty girl ❤️</div>
+</div>
+
+<!-- NEXT -->
+<div id="nextScreen">
+  <div id="nextArrow">➜</div>
+  <div id="nextText">Click next to continue</div>
 </div>
 
 <!-- LOVE TREE -->
@@ -275,13 +279,13 @@ body{
 <!-- FINAL -->
 <div id="finalSurprise">
   <div id="finalCard">
-    <h2>You unlocked my heart ❤️</h2>
     <p id="typedText"></p>
   </div>
 </div>
 
 <script>
 const BEAT_DROP_TIME = 160;
+
 const finalMessage =
 `I don’t need perfect moments.
 I just need the ones with you.
@@ -293,7 +297,8 @@ makes this feel like home to me.
 I’m really grateful it’s you.
 Always. ❤️`;
 
-const tl = gsap.timeline({paused:true,onComplete:goToTree});
+const tl = gsap.timeline({paused:true,onComplete:showNext});
+
 startOverlay.onclick=()=>{
   startOverlay.style.display="none";
   storyMusic.play();
@@ -320,21 +325,19 @@ tl.to("#sweetBoy",{opacity:1,x:"30vw",duration:2})
   .to("#endingGif",{opacity:1,duration:2})
   .to("#finalMessage",{opacity:1,scale:1.2,duration:2});
 
-function goToTree(){
+function showNext(){
   storyMusic.pause();
   scene.style.display="none";
-  loveTreePage.style.display="flex";
-  treeMusic.play();
+  nextScreen.style.display="flex";
 }
 
-/* TREE PULSE */
-setInterval(()=>{
-  if(!treeMusic.paused){
-    gsap.fromTo(".tree",{scale:1},{scale:1.04,duration:.25,yoyo:true,repeat:1});
-  }
-},600);
+nextScreen.onclick=()=>{
+  nextScreen.style.display="none";
+  loveTreePage.style.display="flex";
+  treeMusic.play();
+};
 
-/* ORNAMENT LOGIC */
+/* ORNAMENTS */
 const messages={
 1:"You make me feel calm just by being you.",
 2:"I love how deeply you care.",
@@ -372,49 +375,30 @@ document.querySelectorAll(".ornament").forEach(o=>{
 
 function openModal(){
   modal.style.display="flex";
-  gsap.fromTo("#modal",{opacity:0},{opacity:1,duration:.4});
-  gsap.fromTo("#modalBox",{scale:.85,y:20},{scale:1,y:0,duration:.5});
 }
 function closeModal(){
-  gsap.to("#modal",{opacity:0,duration:.3,onComplete:()=>modal.style.display="none"});
+  modal.style.display="none";
 }
 
 function waitForBeat(){
   const check=setInterval(()=>{
     if(treeMusic.currentTime>=BEAT_DROP_TIME){
       clearInterval(check);
-      unlockFinal();
+      document.querySelector(".ornament.o7").classList.remove("locked");
     }
   },100);
 }
 
-function unlockFinal(){
-  const o=document.querySelector(".ornament.o7");
-  o.classList.remove("locked");
-  gsap.fromTo(o,{scale:1},{scale:1.4,yoyo:true,repeat:1,duration:.6});
-}
-
 function finalReveal(){
   finalSurprise.style.display="flex";
-
   let i=0;
   function type(){
     if(i<finalMessage.length){
       typedText.textContent+=finalMessage[i++];
-      setTimeout(type,45);
+      setTimeout(type,135); // ⬅️ SLOWED TYPING (⅓ SPEED)
     }
   }
   type();
-
-  setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart";
-    h.textContent="❤️";
-    h.style.left=Math.random()*innerWidth+"px";
-    h.style.top=innerHeight+"px";
-    document.body.appendChild(h);
-    gsap.to(h,{y:-200,opacity:0,duration:2,onComplete:()=>h.remove()});
-  },300);
 }
 </script>
 
