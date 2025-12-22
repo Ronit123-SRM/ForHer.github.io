@@ -15,7 +15,6 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  background: #000;
 }
 
 /* ================= SCENE 1 ================= */
@@ -49,15 +48,11 @@ body {
   text-align: center;
 }
 
-.label {
+#sweetBoy, #prettyGirl {
   position: absolute;
-  color: white;
-  font-weight: bold;
+  width: 150px;
   opacity: 0;
 }
-
-#sweetBoy, #prettyGirl { position: absolute; width: 150px; opacity: 0; }
-#bowImg { position: absolute; width: 40px; opacity: 0; }
 
 .photo {
   position: absolute;
@@ -87,7 +82,7 @@ body {
   opacity: 0;
 }
 
-/* ================= LOVE TREE PAGE ================= */
+/* ================= LOVE TREE ================= */
 #loveTreePage {
   position: fixed;
   inset: 0;
@@ -134,23 +129,29 @@ body {
 
 .ornament {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 1.3rem;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ornament:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 20px rgba(255,255,255,0.9);
 }
 
-.ornament:hover { transform: scale(1.2); }
-
-.o1 { top: 90px; left: 130px; background: crimson; }
-.o2 { top: 150px; left: 90px; background: gold; }
-.o3 { top: 200px; left: 160px; background: hotpink; }
-.o4 { top: 260px; left: 120px; background: lightskyblue; }
+/* Ornament positions */
+.o1 { top: 80px; left: 130px; background: crimson; }
+.o2 { top: 120px; left: 80px; background: gold; }
+.o3 { top: 120px; left: 180px; background: hotpink; }
+.o4 { top: 190px; left: 60px; background: lightskyblue; }
+.o5 { top: 190px; left: 200px; background: violet; }
+.o6 { top: 260px; left: 110px; background: orange; }
+.o7 { top: 260px; left: 160px; background: limegreen; }
 
 /* ================= MESSAGE MODAL ================= */
 #messageOverlay {
@@ -163,7 +164,7 @@ body {
 }
 
 .message-box {
-  max-width: 400px;
+  max-width: 420px;
   padding: 30px;
   background: #111;
   border-radius: 15px;
@@ -175,28 +176,36 @@ body {
 
 <body>
 
-<!-- MUSIC -->
-<audio id="bgMusic" src="music.mp3"></audio>
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" src="music.mp3" loop muted autoplay></audio>
 <audio id="treeMusic" src="love-tree-music.mp3" loop></audio>
 
 <!-- ================= SCENE 1 ================= -->
 <div id="scene">
 
+<!-- Sweet Boy -->
 <div id="sweetBoy" style="top:65%; left:-20%;">
 <svg width="150" height="250">
-<circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"/>
-<line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"/>
+  <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"/>
+  <line x1="75" y1="70" x2="75" y2="140" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="95" x2="30" y2="120" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="95" x2="120" y2="120" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="140" x2="45" y2="210" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="140" x2="105" y2="210" stroke="white" stroke-width="5"/>
 </svg>
 </div>
 
+<!-- Pretty Girl -->
 <div id="prettyGirl" style="top:65%; left:85%;">
 <svg width="150" height="250">
-<circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"/>
-<line x1="75" y1="70" x2="75" y2="150" stroke="white" stroke-width="5"/>
+  <circle cx="75" cy="40" r="30" stroke="white" stroke-width="5" fill="none"/>
+  <line x1="75" y1="70" x2="75" y2="140" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="95" x2="40" y2="120" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="95" x2="110" y2="120" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="140" x2="50" y2="210" stroke="white" stroke-width="5"/>
+  <line x1="75" y1="140" x2="100" y2="210" stroke="white" stroke-width="5"/>
 </svg>
 </div>
-
-<img id="bowImg" src="bow.png">
 
 <div id="txt1" class="text-box">It was Christmas Eve… and Sweet Boy set out on his snowy journey…</div>
 <div id="txt2" class="text-box">With every moment he had his head wrapped around a certain girl.</div>
@@ -211,7 +220,7 @@ body {
 
 </div>
 
-<!-- ================= LOVE TREE PAGE ================= -->
+<!-- ================= LOVE TREE ================= -->
 <div id="loveTreePage">
 <h1>🎄 Love Tree 🎄</h1>
 
@@ -225,14 +234,16 @@ body {
   <div class="ornament o2" onclick="openMessage(2)">✨</div>
   <div class="ornament o3" onclick="openMessage(3)">🎁</div>
   <div class="ornament o4" onclick="openMessage(4)">💫</div>
+  <div class="ornament o5" onclick="openMessage(5)">💖</div>
+  <div class="ornament o6" onclick="openMessage(6)">🌟</div>
+  <div class="ornament o7" onclick="openMessage(7)">🎄</div>
 </div>
 </div>
 
 <!-- MESSAGE -->
 <div id="messageOverlay">
   <div class="message-box">
-    <p id="messageText"></p>
-    <br>
+    <p id="messageText"></p><br>
     <button onclick="closeMessage()">Close</button>
   </div>
 </div>
@@ -241,33 +252,46 @@ body {
 const bgMusic = document.getElementById("bgMusic");
 const treeMusic = document.getElementById("treeMusic");
 
-window.addEventListener("click", () => bgMusic.play(), { once: true });
+/* Unmute & fade in on first interaction */
+window.addEventListener("click", () => {
+  bgMusic.muted = false;
+  bgMusic.volume = 0;
+  bgMusic.play();
+  gsap.to(bgMusic, { volume: 1, duration: 3 });
+}, { once: true });
 
 const messages = {
   1: "You are my safest place.",
   2: "Loving you feels warm no matter the season.",
   3: "Every moment with you is a gift.",
-  4: "I choose you, always."
+  4: "You make everything brighter.",
+  5: "I smile every time I think of you.",
+  6: "You feel like home.",
+  7: "I choose you — always."
 };
 
 function openMessage(id) {
   document.getElementById("messageText").innerText = messages[id];
   document.getElementById("messageOverlay").style.display = "flex";
 }
-
 function closeMessage() {
   document.getElementById("messageOverlay").style.display = "none";
 }
 
 function goToLoveTree() {
-  gsap.to("#scene", { opacity: 0, duration: 2, onComplete: () => {
-    document.getElementById("scene").style.display = "none";
-    document.getElementById("loveTreePage").style.display = "flex";
-    treeMusic.play();
-  }});
+  gsap.to(bgMusic, { volume: 0, duration: 3 });
+  gsap.to("#scene", {
+    opacity: 0,
+    duration: 2,
+    onComplete: () => {
+      bgMusic.pause();
+      document.getElementById("scene").style.display = "none";
+      document.getElementById("loveTreePage").style.display = "flex";
+      treeMusic.play();
+    }
+  });
 }
 
-/* TIMELINE */
 const tl = gsap.timeline({
   defaults:{ ease:"power2.out" },
   onComplete: goToLoveTree
@@ -290,7 +314,6 @@ tl.to("#sweetBoy",{duration:1.5,opacity:1,x:"30vw"})
   .to("#txt5",{duration:3,opacity:1})
   .to("#txt5",{duration:1,opacity:0},"+=2")
   .to("#endingGif",{duration:1.5,opacity:1})
-  .to(bgMusic,{duration:3,volume:0})
   .to("#finalMessage",{duration:2,opacity:1,scale:1.3});
 </script>
 
