@@ -4,24 +4,39 @@
 <meta charset="UTF-8">
 <title>Sweet Boy & Pretty Girl</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
 html,body{
   margin:0;padding:0;width:100%;height:100%;
   overflow:hidden;font-family:Arial,sans-serif;
-  background:#000;
+  background:black;
+}
+
+/* ===== CLICK TO START ===== */
+#startOverlay{
+  position:fixed;inset:0;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+#startText{
+  color:white;
+  font-size:1.8rem;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:.4}
+  50%{opacity:1}
 }
 
 /* ===== STORY ===== */
 body{
   background:url("wintervillage.jpg") center/cover no-repeat fixed;
 }
-
-#scene{
-  position:absolute;width:100vw;height:100vh;
-}
+#scene{position:absolute;width:100vw;height:100vh;}
 
 .text-box{
   position:absolute;
@@ -57,6 +72,7 @@ body{
   top:75%;text-align:center;
   font-size:2.2rem;color:#ff2a68;
   opacity:0;
+  text-shadow:2px 2px 8px rgba(0,0,0,.8);
 }
 
 /* ===== LOVE TREE ===== */
@@ -91,13 +107,12 @@ body{
 .ornament{
   position:absolute;width:42px;height:42px;
   border-radius:50%;
-  cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;
+  cursor:pointer;font-size:1.3rem;
 }
 .ornament.opened{box-shadow:0 0 25px white}
 
-/* positions */
+/* ornament positions */
 .o1{top:80px;left:130px;background:crimson}
 .o2{top:120px;left:80px;background:gold}
 .o3{top:120px;left:180px;background:hotpink}
@@ -113,9 +128,7 @@ body{
   display:none;
   align-items:center;
   justify-content:center;
-  color:white;
 }
-
 #modalBox{
   background:#111;
   padding:30px;
@@ -123,27 +136,52 @@ body{
   max-width:420px;
   text-align:center;
   font-size:1.2rem;
+  color:white;
+  transform:scale(.85);
 }
 
 /* ===== FINAL ===== */
 #finalSurprise{
   position:fixed;inset:0;
-  background:rgba(0,0,0,.9);
+  background:rgba(0,0,0,.92);
   display:none;
   align-items:center;
   justify-content:center;
   text-align:center;
+  color:white;
+}
+#finalSurprise h2{
+  color:#ff5fa2;
+  font-size:3rem;
+  text-shadow:0 0 10px rgba(255,95,162,.6);
+}
+#typedText{
+  font-size:1.3rem;
+  line-height:1.6;
+  white-space:pre-line;
+}
+
+/* hearts */
+.heart{
+  position:fixed;
+  pointer-events:none;
+  font-size:1.5rem;
 }
 </style>
 </head>
 
 <body>
 
+<!-- CLICK START -->
+<div id="startOverlay">
+  <div id="startText">❄️ Click to start your story ❄️</div>
+</div>
+
 <!-- MUSIC -->
-<audio id="storyMusic" src="music.mp3" autoplay loop></audio>
+<audio id="storyMusic" src="music.mp3" loop></audio>
 <audio id="treeMusic" src="love-tree-music.mp3" loop></audio>
 
-<!-- ===== STORY SCENE ===== -->
+<!-- STORY -->
 <div id="scene">
 
 <div id="sweetBoy" style="top:65%;left:-20%">
@@ -181,7 +219,7 @@ body{
 
 </div>
 
-<!-- ===== LOVE TREE ===== -->
+<!-- LOVE TREE -->
 <div id="loveTreePage">
 <h1>🎄 Love Tree 🎄</h1>
 <div class="tree">
@@ -212,13 +250,22 @@ body{
 <div id="finalSurprise">
 <div>
 <h2>You unlocked my heart ❤️</h2>
-<p>Every ornament held a piece of how much you mean to me.</p>
+<p id="typedText"></p>
 </div>
 </div>
 
 <script>
-/* ===== STORY TIMELINE (SLOWER, ORIGINAL FEEL) ===== */
-const tl=gsap.timeline({onComplete:goToTree});
+const BEAT_DROP_TIME = 160;
+
+/* CLICK START */
+const tl = gsap.timeline({paused:true,onComplete:goToTree});
+startOverlay.onclick=()=>{
+  startOverlay.style.display="none";
+  storyMusic.play();
+  tl.play();
+};
+
+/* STORY TIMING */
 tl.to("#sweetBoy",{opacity:1,x:"30vw",duration:2})
   .to("#txt1",{opacity:1,duration:3})
   .to("#txt1",{opacity:0,duration:1},"+=2")
@@ -238,7 +285,6 @@ tl.to("#sweetBoy",{opacity:1,x:"30vw",duration:2})
   .to("#endingGif",{opacity:1,duration:2})
   .to("#finalMessage",{opacity:1,scale:1.2,duration:2});
 
-/* ===== TRANSITION ===== */
 function goToTree(){
   storyMusic.pause();
   scene.style.display="none";
@@ -246,38 +292,91 @@ function goToTree(){
   treeMusic.play();
 }
 
-/* ===== ORNAMENT MESSAGES ===== */
+/* TREE PULSE */
+setInterval(()=>{
+  if(!treeMusic.paused){
+    gsap.fromTo(".tree",{scale:1},{scale:1.04,duration:.25,yoyo:true,repeat:1});
+  }
+},600);
+
+/* ORNAMENTS */
 const messages={
-  1:"You make me feel calm just by being you.",
-  2:"I love the way you care — it never goes unnoticed.",
-  3:"Every memory with you is something I hold close.",
-  4:"You make ordinary moments feel special.",
-  5:"I smile every time I think about you.",
-  6:"Being with you feels like home.",
-  7:"I choose you, always."
+1:"You make me feel calm just by being you.",
+2:"I love how deeply you care.",
+3:"Every memory with you means so much to me.",
+4:"You make ordinary moments special.",
+5:"I smile every time I think of you.",
+6:"Being with you feels like home.",
+7:"I choose you — always."
 };
 
-let openedCount=0;
-
+let opened=0;
 document.querySelectorAll(".ornament").forEach(o=>{
   o.onclick=()=>{
     if(o.classList.contains("opened"))return;
-    const id=o.dataset.id;
-    modalText.textContent=messages[id];
-    modal.style.display="flex";
     o.classList.add("opened");
-    openedCount++;
-    if(openedCount===7){
-      setTimeout(()=>finalSurprise.style.display="flex",500);
+    modalText.textContent=messages[o.dataset.id];
+    modal.style.display="flex";
+    gsap.fromTo("#modal",{opacity:0},{opacity:1,duration:.4});
+    gsap.fromTo("#modalBox",{scale:.85,y:20},{scale:1,y:0,duration:.5});
+    opened++;
+    if(opened===7){
+      fadeOutOrnaments();
+      waitForBeat();
     }
   };
 });
 
 function closeModal(){
-  modal.style.display="none";
+  gsap.to("#modal",{opacity:0,duration:.3,onComplete:()=>modal.style.display="none"});
+}
+
+function fadeOutOrnaments(){
+  document.querySelectorAll(".ornament").forEach((o,i)=>{
+    gsap.to(o,{opacity:0,duration:.6,delay:i*.25});
+  });
+}
+
+function waitForBeat(){
+  const check=setInterval(()=>{
+    if(treeMusic.currentTime>=BEAT_DROP_TIME){
+      clearInterval(check);
+      finalReveal();
+    }
+  },100);
+}
+
+const finalMessage=`I don’t need perfect moments.
+I just need the ones with you.
+
+Every laugh, every quiet second,
+every little thing you do
+makes this feel like home to me.
+
+I’m really grateful it’s you.
+Always. ❤️`;
+
+function finalReveal(){
+  finalSurprise.style.display="flex";
+  let i=0;
+  function type(){
+    if(i<finalMessage.length){
+      typedText.textContent+=finalMessage[i++];
+      setTimeout(type,45);
+    }
+  }
+  type();
+  for(let i=0;i<30;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.textContent="❤️";
+    h.style.left=Math.random()*innerWidth+"px";
+    h.style.top=innerHeight+"px";
+    document.body.appendChild(h);
+    gsap.to(h,{y:-200,opacity:0,duration:2,onComplete:()=>h.remove()});
+  }
 }
 </script>
 
 </body>
 </html>
-
