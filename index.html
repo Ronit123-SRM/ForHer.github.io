@@ -89,7 +89,7 @@ body{
   gap:8px;
   z-index:50;
   animation:fadePulse 2s infinite;
-  display:none; /* Hidden initially */
+  display:none;
 }
 #nextArrow{font-size:1.5rem}
 
@@ -204,19 +204,31 @@ body{
   align-items:center;
   justify-content:center;
   z-index: 2000;
+  overflow: hidden; /* Keep hearts inside */
 }
 #finalCard{
+  position: relative;
   background:rgba(20,20,20,.85);
   padding:40px;
   border-radius:20px;
   max-width:600px;
-  border: 1px solid #ff2a68;
+  z-index: 2001; /* Above hearts */
 }
 #typedText{
   white-space:pre-line;
-  font-size:1.2rem;
-  line-height:1.6;
+  font-size:1.3rem;
+  line-height:1.7;
   color: white;
+}
+
+/* Floating Heart Style */
+.floating-heart {
+  position: absolute;
+  color: #ff2a68;
+  font-size: 1.5rem;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1999;
 }
 </style>
 </head>
@@ -307,9 +319,8 @@ body{
 
 <script>
 const BEAT_DROP_TIME = 160; 
-const NAME_START = 160; 
-const NAME_SPEED = 100; // Faster typing for name
-const LETTER_SPEED = 70; // Natural typing speed for letter
+const NAME_SPEED = 800; 
+const LETTER_SPEED = 220; 
 
 const nameLine = "Dear Leah Danielle Nehrbass";
 const letterMessage = `For the past almost two months we’ve been together, it has been amazing, and I really felt like I had to give you this gift — because you gave me the gift of calling me yours.
@@ -408,10 +419,34 @@ function waitForBeat(){
   }, 100);
 }
 
+// HEART ANIMATION SYSTEM
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("floating-heart");
+  heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.top = "105vh"; // Start below screen
+  heart.style.opacity = Math.random() * 0.5 + 0.5;
+  heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+  
+  finalSurprise.appendChild(heart);
+
+  gsap.to(heart, {
+    y: "-110vh",
+    x: (Math.random() - 0.5) * 200, // Slight horizontal drift
+    duration: Math.random() * 3 + 4,
+    ease: "power1.out",
+    onComplete: () => heart.remove()
+  });
+}
+
 function finalReveal(){
   modal.style.display = "none";
   finalSurprise.style.display = "flex";
   typedText.textContent = "";
+
+  // Start spawning hearts
+  setInterval(createHeart, 300);
 
   let nameIndex = 0;
   let letterIndex = 0;
@@ -422,7 +457,7 @@ function finalReveal(){
       setTimeout(typeName, NAME_SPEED);
     } else {
       typedText.textContent += "\n\n";
-      setTimeout(typeLetter, 1000);
+      setTimeout(typeLetter, 1200);
     }
   }
 
